@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "module": "esnext",
+        "target": "es5",
+        "jsx": "react",
+        "allowJs": true,
+        "lib": ["es7", "es2015", "dom"],
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "baseUrl": "./src"
+    },
+    "include": [
+        "./src/**/*"
+    ],
+    "exclude": [
+        "config",
+        "dist",
+        "log",
+        "node_modules",
+        "tmp"
+    ]
+}

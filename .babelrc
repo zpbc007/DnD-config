@@ -1,0 +1,15 @@
+{
+    "env": {
+        "client": {
+            "plugins": ["react-hot-loader/babel"]
+        },
+        "server": {
+            "plugins": [
+                "transform-es2015-spread",
+                "transform-runtime",
+                "transform-object-rest-spread"
+            ],
+            "presets": ["env"]
+        }
+    }
+}
