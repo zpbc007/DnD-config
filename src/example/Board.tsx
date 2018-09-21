@@ -1,18 +1,15 @@
 import * as React from 'react';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
+import BoardSquare from './BoardSquare';
+import { canMoveKnight, moveKnight } from './Game';
 import Knight from './Knight';
-import Square from './Square' ;
 
+@DragDropContext(HTML5Backend)
 export default class Board extends React.Component<{knightPosition: number[]}> {
-
     renderSquare = (i: number) => {
         const x = i % 8;
         const y = Math.floor(i / 8);
-        const black = (x + y) % 2 === 1;
-
-        const [knightX, knightY] = this.props.knightPosition;
-        const piece = (x === knightX && y === knightY) ?
-            <Knight/> :
-            null;
 
         return (
             <div
@@ -22,11 +19,23 @@ export default class Board extends React.Component<{knightPosition: number[]}> {
                     height: '12.5%',
                 }}
             >
-                <Square black={black}>
-                    {piece}
-                </Square>
+                <BoardSquare x={x} y={y}>
+                    {this.renderPiece(x, y)}
+                </BoardSquare>
             </div>
         );
+    }
+
+    renderPiece(x, y) {
+        const [knightX, knightY] = this.props.knightPosition;
+
+        return (x === knightX && y === knightY) ? <Knight/> : null;
+    }
+
+    handleSquareClick = (toX, toY) => {
+        if (canMoveKnight(toX, toY)) {
+            moveKnight(toX, toY);
+        }
     }
 
     render() {
