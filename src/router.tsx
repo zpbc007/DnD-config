@@ -1,6 +1,6 @@
 import NotFoundPage from 'error_page/page_404';
 import Example from 'example';
-import Knight from 'example/Knight';
+import JsonViewer from 'json_config';
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
 import {
@@ -40,8 +40,8 @@ const routesConfig: RouteItem[] = [
         path: '/example',
         component: Example,
     }, {
-        path: '/knight',
-        component: Knight,
+        path: '/jsonConfig',
+        component: JsonViewer,
     }, {
         component: NotFoundPage,
         private: true,

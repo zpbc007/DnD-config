@@ -22,6 +22,7 @@
   "homepage": "https://github.com/zpbc007/DnD-config#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "codemirror": "^5.40.2",
     "history": "^4.7.2",
     "immutable": "^3.8.2",
     "immutablediff": "^0.4.4",
@@ -30,6 +31,9 @@
     "mobx-react": "^5.2.3",
     "query-string": "^6.1.0",
     "react": "^16.5.2",
+    "react-codemirror2": "^5.1.0",
+    "react-dnd": "^5.0.0",
+    "react-dnd-html5-backend": "^5.0.1",
     "react-dom": "^16.4.1",
     "react-hot-loader": "^4.3.3",
     "react-loadable": "^5.4.0",
@@ -39,9 +43,11 @@
     "url": "^0.11.0"
   },
   "devDependencies": {
+    "@types/codemirror": "^0.0.60",
     "@types/json-schema": "^7.0.0",
     "@types/query-string": "^6.1.0",
     "@types/react": "^16.4.14",
+    "@types/react-dnd": "^3.0.2",
     "@types/react-dom": "^16.0.6",
     "@types/react-hot-loader": "^4.1.0",
     "@types/react-loadable": "^5.4.0",
