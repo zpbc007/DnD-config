@@ -1,0 +1,38 @@
+.json-config-container {
+    height: 100%;
+
+    .panel-item-title {
+        text-align: center;
+    }
+    .panel-item {
+        border: 1px solid black;
+
+        &.left, &.right {
+            height: 100vh;
+            overflow: auto;
+        }
+
+        &.center {
+            border-right: 0px;
+            border-left: 0px;
+            height: 100vh;
+            overflow: auto;
+        }
+
+        .add-panel {
+            margin-top: 20px;
+            text-align: center;
+
+            .add-btn {
+                border: 1px dashed gray;
+                background-color: transparent;
+                color: #808B96;
+
+                &:hover {
+                    color: #5D6D7E;
+                    background: white;
+                }
+            }
+        }
+    }
+}

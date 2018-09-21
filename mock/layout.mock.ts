@@ -49,22 +49,4 @@ export const MockData = {
             },
         },
     },
-    uiSchema: {
-        // 定义组顺序
-        'ui:order': ['default'],
-        'default': {// 组 定义内部顺序
-            'ui:order': [
-                'fcustomsno',
-                'fstockformno',
-                'fcontractno',
-                'fcaseno',
-                'fconsigneename',
-                'fconsigneenumber',
-                'felectrontype',
-                'findate',
-                'fdeclarationfile',
-                'ffreight'],
-            'ui:name': '默认组',
-        },
-    },
 };

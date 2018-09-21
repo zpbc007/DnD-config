@@ -29,6 +29,3 @@ export default class Example extends React.Component<any, {knightPisition: numbe
         );
     }
 }
-// document.addEventListener('DOMContentLoaded', () => {
-//     observe(knightPisition => ReactDOM.render(<Board knightPosition={knightPisition}/>, document.getElementById('app')));
-// });
