@@ -4,7 +4,8 @@ import * as React from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Col, Panel, Row } from 'rsuite';
-import { FormItemUiSchemaInterface, GroupUiSchemaInterface, UiSchemaInterface } from './type';
+import { JsonConfigContext } from '.';
+import { EditableCompEnum, FormItemUiSchemaInterface, GroupUiSchemaInterface, UiSchemaInterface } from './type';
 
 interface PropsInterface {
     uiSchema: UiSchemaInterface;
@@ -16,7 +17,7 @@ interface PropsInterface {
  */
 @DragDropContext(HTML5Backend)
 export default class CompLayer extends React.Component<PropsInterface> {
-    renderField = () => {
+    renderField = (showEditForm) => {
         const { uiSchema, schema } = this.props;
         if (!uiSchema || !schema) {
             return '暂无配置信息';
@@ -77,8 +78,11 @@ export default class CompLayer extends React.Component<PropsInterface> {
             Content.push((
                 <Panel
                     bordered={true}
-                    key={groupName}
+                    key={groupId}
                     header={<span>{groupName}</span>}
+                    className='comp-panel'
+                    // tslint:disable-next-line:jsx-no-lambda
+                    onClick={() => showEditForm(EditableCompEnum.group, groupId)}
                 >
                     {GroupContent}
                 </Panel>
@@ -91,7 +95,9 @@ export default class CompLayer extends React.Component<PropsInterface> {
     render() {
         return (
             <div>
-                {this.renderField()}
+                <JsonConfigContext.Consumer>
+                    {({showEditForm}) => this.renderField(showEditForm)}
+                </JsonConfigContext.Consumer>
             </div>
         );
     }
