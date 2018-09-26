@@ -12,6 +12,8 @@ interface PropsInterface {
     uiSchema: UiSchemaInterface;
     schema: JSONSchema7;
     changeGroupOrder: (sourceIndex: number, targetIndex: number) => void;
+    /** 当前选中组件id */
+    selectedId: string;
 }
 
 /**
@@ -82,6 +84,7 @@ export default class CompLayer extends React.Component<PropsInterface> {
             Content.push((
                 <DraggablePanel
                     id={groupId}
+                    selected={groupId === this.props.selectedId}
                     index={groupIndex}
                     bordered={true}
                     key={groupId}

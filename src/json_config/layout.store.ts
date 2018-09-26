@@ -45,6 +45,15 @@ export class LayoutStore {
         }
     }
 
+    /** 组删除按钮状态 */
+    get delBtnDisabled() {
+        if (!this.configCompId || this.configFormType !== EditableCompEnum.group) {// 没有选中 或者不为group
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // 从schema中生成默认uiSchema
     private buildUiSchemaFromSchema = (schema: JSONSchema7): UiSchemaInterface => {
         const DefaultGroupId = DefaultGroupIdPreFix,
@@ -95,6 +104,24 @@ export class LayoutStore {
                 'ui:order': [],
                 'ui:name': DefaultGroupName,
             },
+        };
+    }
+
+    /** 删除组 */
+    @action
+    delGroup = () => {
+        const GroupOrder = this.uiSchema['ui:order'] as string[],
+            index = GroupOrder.indexOf(this.configCompId);
+
+        // 删除
+        GroupOrder.splice(index, 1);
+        // 清空数据
+        this.configCompId = null;
+        this.configFormType = null;
+        // 重置schema
+        this.uiSchema = {
+            ...this.uiSchema,
+            'ui:order': GroupOrder as any,
         };
     }
 

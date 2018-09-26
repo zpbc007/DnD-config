@@ -23,11 +23,11 @@
             margin-top: 20px;
             text-align: center;
 
-            .add-btn {
+            .add-btn, .del-btn {
                 border: 1px dashed gray;
                 background-color: transparent;
                 color: #808B96;
-
+                margin: 0 10px;
                 &:hover {
                     color: #5D6D7E;
                     background: white;

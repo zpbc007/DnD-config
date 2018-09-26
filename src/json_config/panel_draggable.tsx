@@ -1,3 +1,4 @@
+import * as classNames from 'classnames';
 import * as React from 'react';
 import {
     ConnectDragSource,
@@ -74,6 +75,7 @@ interface PropsInterface extends PanelPropsInterface {
     id: string;
     index: number;
     movePanel: (preIndex: number, targetIndex: number) => void;
+    selected: boolean;
 }
 
 @DropTarget(
@@ -92,12 +94,15 @@ interface PropsInterface extends PanelPropsInterface {
     }))
 export default class DraggablePanel extends Panel<PropsInterface> {
     render() {
-        const { connectDragSource, connectDropTarget, isDragging, id, index, movePanel, ...props } = this.props;
+        const { connectDragSource, connectDropTarget, isDragging, id, index, movePanel, selected, ...props } = this.props;
         // 被拖拽时隐藏
         const style = {
             opacity: isDragging ? 0 : 1,
         };
+        const classes = classNames('panel-draggable', {
+            selected,
+        });
 
-        return connectDragSource(connectDropTarget(super.mainRender({...props, className: 'panel-draggable', style})));
+        return connectDragSource(connectDropTarget(super.mainRender({...props, className: classes, style})));
     }
 }

@@ -18,4 +18,10 @@ $HeadBodyPadding: 20px;
         padding-top: 10px;
         padding-bottom: 30px;
     }
+
+    &.panel-draggable {
+        &.selected {
+            background-color: #D6EAF8; 
+        }
+    }
 }

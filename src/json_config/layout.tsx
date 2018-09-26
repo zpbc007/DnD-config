@@ -30,13 +30,16 @@ class Layout extends React.Component<{store: LayoutStore}> {
             changeModel,
             showEditForm,
             addGroup,
+            delGroup,
             changeGroupOrder,
+            configCompId,
+            delBtnDisabled,
         } = this.props.store;
         return (
             <Container className='json-config-container'>
                 <Content>
                     <FlexboxGrid>
-                        <FlexboxGrid.Item colspan={6}>
+                        <FlexboxGrid.Item colspan={5}>
                             <Panel
                                 className='panel-item left'
                                 header={PanelHeader('ui schema')}
@@ -47,7 +50,7 @@ class Layout extends React.Component<{store: LayoutStore}> {
                                 />
                             </Panel>
                         </FlexboxGrid.Item>
-                        <FlexboxGrid.Item colspan={12}>
+                        <FlexboxGrid.Item colspan={14}>
                             <Panel
                                 className='panel-item center'
                                 header={PanelHeader('组件')}
@@ -57,6 +60,7 @@ class Layout extends React.Component<{store: LayoutStore}> {
                                     <CompLayer
                                         uiSchema={uiSchema}
                                         schema={schema}
+                                        selectedId={configCompId}
                                         changeGroupOrder={changeGroupOrder}
                                     />
                                 </LayoutContext.Provider>
@@ -70,10 +74,23 @@ class Layout extends React.Component<{store: LayoutStore}> {
                                     >
                                         <Icon size='5x' icon='plus' />
                                     </Button>
+                                    <Button
+                                        onClick={delGroup}
+                                        className='del-btn'
+                                        disabled={delBtnDisabled}
+                                    >
+                                        <Icon
+                                            style={{
+                                                width: '70px',
+                                            }}
+                                            size='5x'
+                                            icon='minus'
+                                        />
+                                    </Button>
                                 </Panel>
                             </Panel>
                         </FlexboxGrid.Item>
-                        <FlexboxGrid.Item colspan={6}>
+                        <FlexboxGrid.Item colspan={5}>
                             <Panel
                                 className='panel-item right'
                                 header={PanelHeader('组件配置信息')}
