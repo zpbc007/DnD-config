@@ -9,7 +9,7 @@ export interface PropsInterface {
     [key: string]: any;
 }
 
-export class Panel<T extends PropsInterface = PropsInterface> extends React.Component<T> {
+export class Panel extends React.PureComponent<PropsInterface> {
     renderHeader = () => {
         const { header } = this.props;
         if (!header) {
@@ -23,12 +23,11 @@ export class Panel<T extends PropsInterface = PropsInterface> extends React.Comp
         );
     }
 
-    mainRender(divProps) {
-        const {bordered: divBordered, header, className: divClassName, ...props} = divProps;
-        const { bordered, className } = this.props;
+    render() {
+        const {bordered, header, className, ...props} = this.props;
         const classes = classNames('panel', {
             bordered,
-        }, className, divClassName);
+        }, className);
         return (
             <div className={classes} {...props}>
                 {this.renderHeader()}
@@ -37,9 +36,5 @@ export class Panel<T extends PropsInterface = PropsInterface> extends React.Comp
                 </div>
             </div>
         );
-    }
-
-    render() {
-        return this.mainRender(this.props);
     }
 }

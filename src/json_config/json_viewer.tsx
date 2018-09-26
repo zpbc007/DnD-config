@@ -35,7 +35,7 @@ interface PropsInterface {
 /**
  * 展示json组件
  */
-export default class JsonViewer extends React.Component<PropsInterface> {
+export default class JsonViewer extends React.PureComponent<PropsInterface> {
     handleCodeChange = () => {
     }
 

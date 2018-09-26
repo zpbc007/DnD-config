@@ -11,6 +11,7 @@ import {
     DropTargetMonitor,
 } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
+import 'styles/json_config/panel/panel.draggable.scss';
 import { Panel, PropsInterface as PanelPropsInterface } from './panel';
 import { DragDropEnum } from './type';
 
@@ -92,7 +93,7 @@ interface PropsInterface extends PanelPropsInterface {
         connectDragSource: connect.dragSource(),
         isDragging: monitor.isDragging(),
     }))
-export default class DraggablePanel extends Panel<PropsInterface> {
+export default class DraggablePanel extends React.PureComponent<PropsInterface> {
     render() {
         const { connectDragSource, connectDropTarget, isDragging, id, index, movePanel, selected, ...props } = this.props;
         // 被拖拽时隐藏
@@ -102,7 +103,12 @@ export default class DraggablePanel extends Panel<PropsInterface> {
         const classes = classNames('panel-draggable', {
             selected,
         });
-
-        return connectDragSource(connectDropTarget(super.mainRender({...props, className: classes, style})));
+        return connectDragSource(connectDropTarget((
+            <div className='panel-draggable-wrapper'>
+                <Panel {...props} style={style} className={classes}>
+                    {this.props.children}
+                </Panel>
+            </div>
+        )));
     }
 }

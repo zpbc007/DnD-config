@@ -20,7 +20,7 @@ interface PropsInterface {
  * 内部组件容器
  */
 @DragDropContext(HTML5Backend)
-export default class CompLayer extends React.Component<PropsInterface> {
+export default class CompLayer extends React.PureComponent<PropsInterface> {
     renderField = (showEditForm) => {
         const { uiSchema, schema } = this.props;
         if (!uiSchema || !schema) {
