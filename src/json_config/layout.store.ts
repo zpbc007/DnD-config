@@ -115,6 +115,7 @@ export class LayoutStore {
 
         // 删除
         GroupOrder.splice(index, 1);
+        delete this.uiSchema[this.configCompId];
         // 清空数据
         this.configCompId = null;
         this.configFormType = null;
