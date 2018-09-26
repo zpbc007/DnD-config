@@ -22,6 +22,7 @@
   "homepage": "https://github.com/zpbc007/DnD-config#readme",
   "dependencies": {
     "axios": "^0.18.0",
+    "classnames": "^2.2.6",
     "codemirror": "^5.40.2",
     "history": "^4.7.2",
     "immutable": "^3.8.2",
@@ -43,6 +44,7 @@
     "url": "^0.11.0"
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.6",
     "@types/codemirror": "^0.0.60",
     "@types/json-schema": "^7.0.0",
     "@types/query-string": "^6.1.0",

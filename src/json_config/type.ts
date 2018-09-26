@@ -78,7 +78,7 @@ export interface UiSchemaInterface {
     [key: string]: FormItemUiSchemaInterface | GroupUiSchemaInterface;
 }
 
-enum DragDropEnum {
+export enum DragDropEnum {
     FieldItem = 'FieldItem', // 单个字段可以被拖拽,
     GroupItem = 'GroupItem', // 组 可以作为容器
 }

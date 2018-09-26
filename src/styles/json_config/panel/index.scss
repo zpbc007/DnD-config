@@ -1,0 +1,21 @@
+$HeadBodyPadding: 20px;
+
+.panel {
+    border-radius: 6px;
+    &.bordered {
+        border: 1px solid #e5e5ea;
+    }
+
+    .panel-header {
+        color: #272c36;
+        font-size: 16px;
+        line-height: 1.25;
+        padding: $HeadBodyPadding;
+    }
+
+    .panel-body {
+        padding: $HeadBodyPadding;
+        padding-top: 10px;
+        padding-bottom: 30px;
+    }
+}

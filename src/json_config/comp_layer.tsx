@@ -3,13 +3,15 @@ import { JSONSchema7 } from 'json-schema';
 import * as React from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { Col, Panel, Row } from 'rsuite';
-import { JsonConfigContext } from '.';
+import { Col, Row } from 'rsuite';
+import { LayoutContext } from './layout';
+import DraggablePanel from './panel_draggable';
 import { EditableCompEnum, FormItemUiSchemaInterface, GroupUiSchemaInterface, UiSchemaInterface } from './type';
 
 interface PropsInterface {
     uiSchema: UiSchemaInterface;
     schema: JSONSchema7;
+    changeGroupOrder: (sourceIndex: number, targetIndex: number) => void;
 }
 
 /**
@@ -23,12 +25,14 @@ export default class CompLayer extends React.Component<PropsInterface> {
             return '暂无配置信息';
         }
 
-        const groupOrder = uiSchema['ui:order'],
+        const groupOrder = uiSchema['ui:order'] as string[],
             { properties: schemaProperties } = schema,
             Content = [];
 
         // 遍历组
-        for (const groupId of groupOrder) {
+        for (let groupIndex = 0, groupLen = groupOrder.length; groupIndex < groupLen; groupIndex++) {
+            const groupId = groupOrder[groupIndex];
+
             // 当前组ui定义
             const curGroupSchema = uiSchema[groupId] as GroupUiSchemaInterface,
                 fieldOrder = curGroupSchema['ui:order'], // 字段顺序
@@ -76,28 +80,30 @@ export default class CompLayer extends React.Component<PropsInterface> {
             }
 
             Content.push((
-                <Panel
+                <DraggablePanel
+                    id={groupId}
+                    index={groupIndex}
                     bordered={true}
                     key={groupId}
                     header={<span>{groupName}</span>}
                     className='comp-panel'
+                    movePanel={this.props.changeGroupOrder}
                     // tslint:disable-next-line:jsx-no-lambda
                     onClick={() => showEditForm(EditableCompEnum.group, groupId)}
                 >
                     {GroupContent}
-                </Panel>
+                </DraggablePanel>
             ));
         }
-
         return Content;
     }
 
     render() {
         return (
             <div>
-                <JsonConfigContext.Consumer>
+                <LayoutContext.Consumer>
                     {({showEditForm}) => this.renderField(showEditForm)}
-                </JsonConfigContext.Consumer>
+                </LayoutContext.Consumer>
             </div>
         );
     }
