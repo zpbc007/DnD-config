@@ -1,26 +1,30 @@
-import FieldWrapper from 'comp/form/field_wrapper';
 import { JSONSchema7 } from 'json-schema';
+import { ObservableMap, observe } from 'mobx';
+import { observer } from 'mobx-react';
 import * as React from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Col, Row } from 'rsuite';
+import DraggableField, { FieldPosition } from './field_draggable';
 import { LayoutContext } from './layout';
 import DraggablePanel from './panel_draggable';
-import { EditableCompEnum, FormItemUiSchemaInterface, GroupUiSchemaInterface, UiSchemaInterface } from './type';
+import { DragDropEnum, EditableCompEnum, FormItemUiSchemaInterface, GroupUiSchemaInterface, UiSchemaInterface } from './type';
 
 interface PropsInterface {
     uiSchema: UiSchemaInterface;
     schema: JSONSchema7;
     changeGroupOrder: (sourceIndex: number, targetIndex: number) => void;
+    groupAddField: (source: FieldPosition, targetGroupIndex: number) => void;
     /** 当前选中组件id */
     selectedId: string;
+    changeFieldOrder: (start: FieldPosition, end: FieldPosition) => void;
 }
 
 /**
  * 内部组件容器
  */
 @DragDropContext(HTML5Backend)
-export default class CompLayer extends React.PureComponent<PropsInterface> {
+export default class CompLayer extends React.Component<PropsInterface> {
     renderField = (showEditForm) => {
         const { uiSchema, schema } = this.props;
         if (!uiSchema || !schema) {
@@ -46,9 +50,12 @@ export default class CompLayer extends React.PureComponent<PropsInterface> {
             for (let fieldIndex = 0, len = fieldOrder.length; fieldIndex < len; fieldIndex++) {
                 const field = fieldOrder[fieldIndex],
                     fieldUiSchema = uiSchema[field] as FormItemUiSchemaInterface,
-                    { type: fieldType, title, format } = schemaProperties[field],
                     rowNum = Math.floor(fieldIndex / 4),
                     colNum = fieldIndex % 4;
+                if (!schemaProperties[field]) {
+                    debugger
+                }
+                const { type: fieldType, title, format } = schemaProperties[field];
 
                 tmpRowList.push((
                     <Col
@@ -62,7 +69,12 @@ export default class CompLayer extends React.PureComponent<PropsInterface> {
                         smOffset={fieldUiSchema && fieldUiSchema['ui:smOffset'] || 0}
                         xsOffset={fieldUiSchema && fieldUiSchema['ui:xsOffset'] || 0}
                     >
-                        <FieldWrapper
+                        <DraggableField
+                            id={field}
+                            moveField={this.props.changeFieldOrder}
+                            groupIndex={groupIndex}
+                            rowIndex={GroupContent.length}
+                            colIndex={tmpRowList.length}
                             type={fieldType as any}
                             format={format}
                             title={title}
@@ -91,6 +103,7 @@ export default class CompLayer extends React.PureComponent<PropsInterface> {
                     header={<span>{groupName}</span>}
                     className='comp-panel'
                     movePanel={this.props.changeGroupOrder}
+                    addField={this.props.groupAddField}
                     // tslint:disable-next-line:jsx-no-lambda
                     onClick={() => showEditForm(EditableCompEnum.group, groupId)}
                 >

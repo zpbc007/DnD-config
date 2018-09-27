@@ -32,9 +32,12 @@ class Layout extends React.Component<{store: LayoutStore}> {
             addGroup,
             delGroup,
             changeGroupOrder,
+            changeFieldOrder,
             configCompId,
             delBtnDisabled,
+            groupAddField,
         } = this.props.store;
+        console.log('layout render');
         return (
             <Container className='json-config-container'>
                 <Content>
@@ -46,7 +49,7 @@ class Layout extends React.Component<{store: LayoutStore}> {
                                 bordered={true}
                             >
                                 <JsonViewer
-                                    value={uiSchema}
+                                    value={uiSchema ? uiSchema.toJS() : null}
                                 />
                             </Panel>
                         </FlexboxGrid.Item>
@@ -58,10 +61,12 @@ class Layout extends React.Component<{store: LayoutStore}> {
                             >
                                 <LayoutContext.Provider value={{showEditForm}}>
                                     <CompLayer
-                                        uiSchema={uiSchema}
+                                        uiSchema={uiSchema ? uiSchema.toJS() as any : null}
                                         schema={schema}
                                         selectedId={configCompId}
+                                        changeFieldOrder={changeFieldOrder}
                                         changeGroupOrder={changeGroupOrder}
+                                        groupAddField={groupAddField}
                                     />
                                 </LayoutContext.Provider>
                                 <Panel

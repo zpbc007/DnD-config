@@ -1,6 +1,6 @@
+import { Map } from 'immutable';
 import * as React from 'react';
 import { Form, Input } from 'rsuite';
-import { UiSchemaInterface } from '../type';
 import FormItem from './form_item';
 import { EditFormCommonProps } from './type';
 
@@ -10,29 +10,29 @@ interface ModelInterface {
     groupIndex: number;
 }
 
-export function createModel(id: string, uiSchema: UiSchemaInterface) {
-    const groupOrder = uiSchema['ui:order'] as string[];
+export function createModel(id: string, uiSchema: Map<string, any>) {
+    const groupOrder = uiSchema.get('ui:order') as string[];
     return {
-        groupName: uiSchema[id]['ui:name'],
+        groupName: uiSchema.get(id)['ui:name'],
         groupId: id,
         groupIndex: groupOrder.indexOf(id),
     };
 }
 
-export function changeSchema(id: string, model: ModelInterface, uiSchema: UiSchemaInterface) {
-    const preGroupOrder = uiSchema['ui:order'] as string[],
-            preModel = uiSchema[id],
+export function changeSchema(id: string, model: ModelInterface, uiSchema: Map<string, any>) {
+    const preGroupOrder = uiSchema.get('ui:order') as string[],
+            preModel = uiSchema.get(id),
             preIndex = preGroupOrder.indexOf(id);
 
     let hasError = false;
 
     if (id !== model.groupId) {
-        if (uiSchema.hasOwnProperty(model.groupId)) {
+        if (uiSchema.has(model.groupId)) {
             hasError = true;
             console.error(`配置的群id已经存在: ${model.groupId}!`);
         } else {
-            delete uiSchema[id];
-            uiSchema[model.groupId] = preModel;
+            uiSchema = uiSchema.delete(id);
+            uiSchema = uiSchema.set(model.groupId, preModel);
             preGroupOrder.splice(preIndex, 1, model.groupId);
         }
     }
@@ -46,6 +46,9 @@ export function changeSchema(id: string, model: ModelInterface, uiSchema: UiSche
         preGroupOrder.splice(model.groupIndex, 0, model.groupIndex as any);
     }
 
+    uiSchema = uiSchema.set(model.groupId, {...preModel});
+    uiSchema = uiSchema.set('ui:order', preGroupOrder.slice());
+
     if (hasError) {
         return {
             schema: uiSchema,
@@ -53,11 +56,7 @@ export function changeSchema(id: string, model: ModelInterface, uiSchema: UiSche
         };
     } else {
         return {
-            schema: {
-                ...uiSchema,
-                'ui:order': preGroupOrder as any,
-                [model.groupId]: preModel,
-            },
+            schema: uiSchema,
             id: model.groupId,
         };
     }
