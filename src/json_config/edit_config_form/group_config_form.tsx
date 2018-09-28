@@ -1,4 +1,4 @@
-import { Map, List } from 'immutable';
+import { List, Map } from 'immutable';
 import * as React from 'react';
 import { Form, Input } from 'rsuite';
 import FormItem from './form_item';

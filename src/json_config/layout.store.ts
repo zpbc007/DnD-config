@@ -1,6 +1,7 @@
 import { fromJS, List, Map } from 'immutable';
 import { JSONSchema7, JSONSchema7TypeName } from 'json-schema';
 import { action, computed, observable } from 'mobx';
+import { Alert } from 'rsuite';
 import { createQnuiqueKeyInObj } from 'utils';
 import { EditFormCommonProps } from './edit_config_form/type';
 import { FieldPosition } from './field_draggable';
@@ -110,8 +111,12 @@ export class LayoutStore {
     @action
     delGroup = () => {
         const GroupOrder: List<string> = this.uiSchema.get('ui:order'),
-            index = GroupOrder.indexOf(this.configCompId);
+                index = GroupOrder.indexOf(this.configCompId),
+                groupFieldOrder = this.uiSchema.getIn([this.configCompId, 'ui:order']) as List<string>;
 
+        if (groupFieldOrder.size > 0) {
+            return Alert.error('组内有其他组件 不能删除');
+        }
         // 删除
         this.uiSchema = this.uiSchema.set('ui:order', GroupOrder.delete(index)) // 改变order
                                      .delete(this.configCompId); // 删除key
