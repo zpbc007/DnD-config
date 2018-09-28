@@ -9,5 +9,6 @@ export interface FieldCommonProps {
     widget?: string;
     /** label */
     title: string;
+    selected?: boolean;
     [key: string]: any;
 }

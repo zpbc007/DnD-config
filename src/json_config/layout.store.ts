@@ -6,7 +6,7 @@ import { createQnuiqueKeyInObj } from 'utils';
 import { EditFormCommonProps } from './edit_config_form/type';
 import { FieldPosition } from './field_draggable';
 import { CompConfigMap, createDefaultTypeWidgetKey, DefaultTypeWidget, FormItemUiSchemaInterface, UiSchemaInterface } from './type';
-import { EditableCompEnum } from './type';
+import { WidgetTypeEnum } from './type';
 
 const DefaultGroupName = '默认组',
     DefaultGroupIdPreFix = 'default';
@@ -21,7 +21,7 @@ export class LayoutStore {
     schema: JSONSchema7 = null;
     /** 当前配置组件类型 */
     @observable
-    configFormType: EditableCompEnum = null;
+    configFormType: WidgetTypeEnum = null;
     /** 当前配置组件id */
     @observable
     configCompId: string = null;
@@ -29,28 +29,31 @@ export class LayoutStore {
     /** 当前配置form */
     @computed
     get tempForm(): React.ComponentClass<EditFormCommonProps> {
-        if (this.configFormType) {
+        if (this.configFormType && CompConfigMap[this.configFormType]) {
             return CompConfigMap[this.configFormType].comp;
         } else {
-            return null;
+            return CompConfigMap.unsupport.comp;
         }
     }
 
     /** 当前配置form数据 */
     @computed
     get tempModel() {
-        if (this.configFormType) {
+        if (this.configFormType && CompConfigMap[this.configFormType]) {
             const { createModel } = CompConfigMap[this.configFormType];
 
-            return createModel(this.configCompId, this.uiSchema);
+            return createModel(this.configCompId, this.uiSchema, this.schema);
         } else {
+            if (this.configFormType) {
+                console.log('暂不支持配置类型', this.configFormType, CompConfigMap[this.configFormType]);
+            }
             return {};
         }
     }
 
     /** 组删除按钮状态 */
     get delBtnDisabled() {
-        if (!this.configCompId || this.configFormType !== EditableCompEnum.group) {// 没有选中 或者不为group
+        if (!this.configCompId || this.configFormType !== WidgetTypeEnum.group) {// 没有选中 或者不为group
             return true;
         } else {
             return false;
@@ -127,7 +130,10 @@ export class LayoutStore {
 
     /** 显示config form */
     @action
-    showEditForm = (type: EditableCompEnum, id: string) => {
+    showEditForm = (type: WidgetTypeEnum, id: string) => {
+        if (!type) {
+            return;
+        }
         this.configFormType = type;
         this.configCompId = id;
     }

@@ -1,6 +1,6 @@
 import { List, Map } from 'immutable';
 import * as React from 'react';
-import { Form, Input } from 'rsuite';
+import { Alert, Form, Input } from 'rsuite';
 import FormItem from './form_item';
 import { EditFormCommonProps } from './type';
 
@@ -11,7 +11,7 @@ interface ModelInterface {
 }
 
 export function createModel(id: string, uiSchema: Map<string, any>) {
-    const groupOrder = uiSchema.get('ui:order') as string[];
+    const groupOrder = uiSchema.get('ui:order') as List<string>;
     return {
         groupName: uiSchema.getIn([id, 'ui:name']),
         groupId: id,
@@ -29,7 +29,12 @@ export function changeSchema(id: string, model: ModelInterface, uiSchema: Map<st
     if (id !== model.groupId) {
         if (uiSchema.has(model.groupId)) {
             hasError = true;
-            console.error(`配置的群id已经存在: ${model.groupId}!`);
+            Alert.error(`配置的群id已经存在: ${model.groupId}!`);
+
+            return {
+                id,
+                schema: uiSchema,
+            };
         } else {
             uiSchema = uiSchema.delete(id)
                                .set(model.groupId, preModel);

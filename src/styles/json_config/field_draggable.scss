@@ -1,0 +1,8 @@
+.field-draggable {
+    &.selected {
+        background-color: #D6EAF8;
+        input {
+            background-color: #AED6F1;
+        }
+    }
+}

@@ -4,7 +4,7 @@ import { ControlLabel, FormControl, FormGroup } from 'rsuite';
 interface PropsInterface {
     label: string;
     name: string;
-    accepter: React.ComponentClass;
+    accepter: React.ComponentClass | any;
 }
 
 export default class FormItem extends React.Component<PropsInterface> {

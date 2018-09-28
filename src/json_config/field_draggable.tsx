@@ -13,6 +13,7 @@ import {
     DropTargetMonitor,
 } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
+import 'styles/json_config/field_draggable.scss';
 import { DragDropEnum } from './type';
 
 export interface FieldPosition {
@@ -29,6 +30,7 @@ interface PropsInterface extends FieldCommonProps, FieldPosition {
     moveField: (start: FieldPosition, end: FieldPosition) => void;
     connectDragSource?: ConnectDragSource;
     connectDropTarget?: ConnectDropTarget;
+    selected?: boolean;
 }
 
 const FieldSource = {
@@ -126,6 +128,7 @@ export default class DraggableField extends React.Component<PropsInterface> {
             rowIndex,
             colIndex,
             isDragging,
+            selected,
             ...props
         } = this.props;
         // 拖拽时隐藏
@@ -133,6 +136,7 @@ export default class DraggableField extends React.Component<PropsInterface> {
             opacity: isDragging ? 0 : 1,
         };
         const classes = classNames('field-draggable', {
+            selected,
         });
         return connectDragSource(connectDropTarget((
             <div className={classes} style={style}>

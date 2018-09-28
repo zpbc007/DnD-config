@@ -8,10 +8,10 @@ import JsonViewer from './json_viewer';
 import { LayoutStore } from './layout.store';
 import { Panel } from './panel';
 import { PanelHeader } from './panel_header';
-import { EditableCompEnum } from './type';
+import { WidgetTypeEnum } from './type';
 
 export const LayoutContext = React.createContext({
-    showEditForm: (type: EditableCompEnum, id: string) => null,
+    showEditForm: (type: WidgetTypeEnum, id: string) => null,
 });
 
 /**

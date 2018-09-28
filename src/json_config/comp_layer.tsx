@@ -1,14 +1,13 @@
 import { JSONSchema7 } from 'json-schema';
-import { ObservableMap, observe } from 'mobx';
-import { observer } from 'mobx-react';
 import * as React from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { Col, Row } from 'rsuite';
+import 'styles/json_config/comp_layer.scss';
 import DraggableField, { FieldPosition } from './field_draggable';
 import { LayoutContext } from './layout';
 import DraggablePanel from './panel_draggable';
-import { DragDropEnum, EditableCompEnum, FormItemUiSchemaInterface, GroupUiSchemaInterface, UiSchemaInterface } from './type';
+import { FormItemUiSchemaInterface, GroupUiSchemaInterface, UiSchemaInterface, WidgetTypeEnum } from './type';
 
 interface PropsInterface {
     uiSchema: UiSchemaInterface;
@@ -51,11 +50,8 @@ export default class CompLayer extends React.Component<PropsInterface> {
                 const field = fieldOrder[fieldIndex],
                     fieldUiSchema = uiSchema[field] as FormItemUiSchemaInterface,
                     rowNum = Math.floor(fieldIndex / 4),
-                    colNum = fieldIndex % 4;
-                if (!schemaProperties[field]) {
-                    debugger
-                }
-                const { type: fieldType, title, format } = schemaProperties[field];
+                    colNum = fieldIndex % 4,
+                    { type: fieldType, title, format } = schemaProperties[field];
 
                 tmpRowList.push((
                     <Col
@@ -71,14 +67,20 @@ export default class CompLayer extends React.Component<PropsInterface> {
                     >
                         <DraggableField
                             id={field}
+                            selected={field === this.props.selectedId}
                             moveField={this.props.changeFieldOrder}
                             groupIndex={groupIndex}
                             rowIndex={GroupContent.length}
                             colIndex={tmpRowList.length}
                             type={fieldType as any}
                             format={format}
-                            title={title}
+                            title={fieldUiSchema.title || title}
                             widget={fieldUiSchema['ui:widget']}
+                            // tslint:disable-next-line:jsx-no-lambda
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                showEditForm(WidgetTypeEnum[fieldUiSchema['ui:widget']] || null, field);
+                            }}
                         />
                     </Col>
                 ));
@@ -105,7 +107,7 @@ export default class CompLayer extends React.Component<PropsInterface> {
                     movePanel={this.props.changeGroupOrder}
                     addField={this.props.groupAddField}
                     // tslint:disable-next-line:jsx-no-lambda
-                    onClick={() => showEditForm(EditableCompEnum.group, groupId)}
+                    onClick={() => showEditForm(WidgetTypeEnum.group, groupId)}
                 >
                     {GroupContent}
                 </DraggablePanel>

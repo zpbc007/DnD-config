@@ -1,6 +1,8 @@
 import Input from 'comp/form/input';
 import { JSONSchema7TypeName } from 'json-schema';
 import GroupComp, { changeSchema as changeGroupSchema, createModel as createGroupModel } from './edit_config_form/group_config_form';
+import InputComp, { changeSchema as changeInputSchema, createModel as createInputModel } from './edit_config_form/input_config_form';
+import UnSupportComp from './edit_config_form/unsupport_config_form';
 
 // 组件类型enum
 export enum WidgetTypeEnum {
@@ -10,19 +12,23 @@ export enum WidgetTypeEnum {
     notSupport = 'notSupport',
     number = 'number',
     fileUpload = 'fileUpload',
-}
-
-// 可编辑组件类型
-export enum EditableCompEnum {
     group = 'group',
 }
 
 // 可编辑组件 form map
 export const CompConfigMap = {
-    [EditableCompEnum.group]: {
+    [WidgetTypeEnum.group]: {
         createModel: createGroupModel,
         comp: GroupComp,
         changeSchema: changeGroupSchema,
+    },
+    [WidgetTypeEnum.input]: {
+        createModel: createInputModel,
+        comp: InputComp,
+        changeSchema: changeInputSchema,
+    },
+    unsupport: {
+        comp: UnSupportComp,
     },
 };
 
