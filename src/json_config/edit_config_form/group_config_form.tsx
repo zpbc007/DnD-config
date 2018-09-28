@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import { Map, List } from 'immutable';
 import * as React from 'react';
 import { Form, Input } from 'rsuite';
 import FormItem from './form_item';
@@ -13,16 +13,16 @@ interface ModelInterface {
 export function createModel(id: string, uiSchema: Map<string, any>) {
     const groupOrder = uiSchema.get('ui:order') as string[];
     return {
-        groupName: uiSchema.get(id)['ui:name'],
+        groupName: uiSchema.getIn([id, 'ui:name']),
         groupId: id,
         groupIndex: groupOrder.indexOf(id),
     };
 }
 
 export function changeSchema(id: string, model: ModelInterface, uiSchema: Map<string, any>) {
-    const preGroupOrder = uiSchema.get('ui:order') as string[],
-            preModel = uiSchema.get(id),
-            preIndex = preGroupOrder.indexOf(id);
+    let preGroupOrder = uiSchema.get('ui:order') as List<string>,
+            preModel = uiSchema.get(id);
+    const preIndex = preGroupOrder.indexOf(id);
 
     let hasError = false;
 
@@ -31,23 +31,24 @@ export function changeSchema(id: string, model: ModelInterface, uiSchema: Map<st
             hasError = true;
             console.error(`配置的群id已经存在: ${model.groupId}!`);
         } else {
-            uiSchema = uiSchema.delete(id);
-            uiSchema = uiSchema.set(model.groupId, preModel);
-            preGroupOrder.splice(preIndex, 1, model.groupId);
+            uiSchema = uiSchema.delete(id)
+                               .set(model.groupId, preModel);
+            preGroupOrder = preGroupOrder.delete(preIndex)
+                                         .insert(preIndex, model.groupId);
         }
     }
 
-    if (preModel['ui:name'] !== model.groupName) {
-        preModel['ui:name'] = model.groupName;
+    if (preModel.get('ui:name') !== model.groupName) {
+        preModel = preModel.set('ui:name', model.groupName);
     }
 
     if (preIndex !== model.groupIndex) {
-        preGroupOrder.splice(preIndex, 1);
-        preGroupOrder.splice(model.groupIndex, 0, model.groupIndex as any);
+        preGroupOrder = preGroupOrder.delete(preIndex) // 从原位置删除
+                                     .insert(model.groupIndex, id); // 添加到新的位置
     }
 
-    uiSchema = uiSchema.set(model.groupId, {...preModel});
-    uiSchema = uiSchema.set('ui:order', preGroupOrder.slice());
+    uiSchema = uiSchema.set(model.groupId, preModel)
+                       .set('ui:order', preGroupOrder);
 
     if (hasError) {
         return {

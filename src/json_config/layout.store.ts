@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import { fromJS, List, Map } from 'immutable';
 import { JSONSchema7, JSONSchema7TypeName } from 'json-schema';
 import { action, computed, observable } from 'mobx';
 import { createQnuiqueKeyInObj } from 'utils';
@@ -78,14 +78,14 @@ export class LayoutStore {
             }
         }
 
-        return Map(UiSchema);
+        return fromJS(UiSchema);
     }
 
     /** 更新schema */
     @action
     updateSchema = (schema: JSONSchema7, uiSchema?: UiSchemaInterface) => {
         if (uiSchema) {
-            this.uiSchema = Map(uiSchema);
+            this.uiSchema = fromJS(uiSchema);
         } else {
             this.uiSchema = this.buildUiSchemaFromSchema(schema);
         }
@@ -96,25 +96,25 @@ export class LayoutStore {
     /** 添加组 */
     @action
     addGroup = () => {
-        const GroupOrder = this.uiSchema.get('ui:order'),
+        const GroupOrder: List<string> = this.uiSchema.get('ui:order'),
             groupId = createQnuiqueKeyInObj(this.uiSchema, DefaultGroupIdPreFix);
-        GroupOrder.push(groupId);
 
-        this.uiSchema = this.uiSchema.set(groupId, {
-            'ui:order': [],
-            'ui:name': DefaultGroupName,
-        });
+        this.uiSchema = this.uiSchema.set('ui:order', GroupOrder.push(groupId)) // 改变order
+                                     .set(groupId, fromJS({ // 添加键
+                                        'ui:order': [],
+                                        'ui:name': DefaultGroupName,
+                                    }));
     }
 
     /** 删除组 */
     @action
     delGroup = () => {
-        const GroupOrder = this.uiSchema.get('ui:order') as string[],
+        const GroupOrder: List<string> = this.uiSchema.get('ui:order'),
             index = GroupOrder.indexOf(this.configCompId);
 
         // 删除
-        GroupOrder.splice(index, 1);
-        this.uiSchema = this.uiSchema.delete(this.configCompId);
+        this.uiSchema = this.uiSchema.set('ui:order', GroupOrder.delete(index)) // 改变order
+                                     .delete(this.configCompId); // 删除key
         // 清空数据
         this.configCompId = null;
         this.configFormType = null;
@@ -139,14 +139,12 @@ export class LayoutStore {
 
     @action
     changeGroupOrder = (sourceIndex: number, targetIndex: number) => {
-        const preOrder = this.uiSchema.get('ui:order'),
-            preId = preOrder[sourceIndex];
+        const preOrder: List<string> = this.uiSchema.get('ui:order'),
+            preId = preOrder.get(sourceIndex);
 
-        // 删除
-        preOrder.splice(sourceIndex, 1);
-        // 添加
-        preOrder.splice(targetIndex, 0, preId);
-        this.uiSchema = this.uiSchema.set('ui:order', preOrder.slice());
+        this.uiSchema = this.uiSchema.set('ui:order', preOrder
+            .delete(sourceIndex) // 删除
+            .insert(targetIndex, preId)); // 添加
     }
 
     @action
@@ -154,24 +152,16 @@ export class LayoutStore {
         console.log('groupAddField');
         const { fieldOrder, fieldId, fieldIndex, groupId: sourceGroupId } = this.getFieldInfoByPosition(source);
         // 添加到新的位置
-        const groupId = this.uiSchema.get('ui:order')[targetGroupIndex];
-        this.uiSchema = this.uiSchema.set(groupId, {
-            ...this.uiSchema.get(groupId),
-            'ui:order': [...this.uiSchema.get(groupId)['ui:order'], fieldId],
-        });
-        // 从原来位置删除
-        fieldOrder.splice(fieldIndex, 1);
-        this.uiSchema = this.uiSchema.set(sourceGroupId, {
-            ...this.uiSchema.get(sourceGroupId),
-            'ui:order': [...fieldOrder],
-        });
+        const groupId = this.uiSchema.getIn(['ui:order', targetGroupIndex]);
+        this.uiSchema = this.uiSchema.setIn([groupId, 'ui:order'], this.uiSchema.getIn([groupId, 'ui:order']).push(fieldId)) // 添加到新的位置
+                                     .setIn([sourceGroupId, 'ui:order'], fieldOrder.delete(fieldIndex)); // 从原来位置删除
     }
 
     getFieldInfoByPosition = (position: FieldPosition) => {
         const { groupIndex, rowIndex, colIndex, id } = position;
-        const groupOrder = this.uiSchema.get('ui:order'),
-                groupId = groupOrder[groupIndex],
-                fieldOrder = this.uiSchema.get(groupId)['ui:order'],
+        const groupOrder = this.uiSchema.get('ui:order') as List<string>,
+                groupId = groupOrder.get(groupIndex),
+                fieldOrder = this.uiSchema.getIn([groupId, 'ui:order']) as List<string>,
                 fieldIndex = rowIndex * 4 + colIndex;
 
         return {
@@ -182,32 +172,28 @@ export class LayoutStore {
         };
     }
 
+    /**
+     * @description 注意 如果是在同一组内移动，从原位置删除后要重新取值
+     */
     @action
     changeFieldOrder = (start: FieldPosition, end: FieldPosition) => {
+        // 从原来位置删除
         const {
             fieldOrder: startFieldOrder,
-            fieldId: startFieldId,
             fieldIndex: startFieldIndex,
             groupId: startGroupId,
+            fieldId,
         } = this.getFieldInfoByPosition(start);
+
+        this.uiSchema = this.uiSchema.setIn([startGroupId, 'ui:order'], startFieldOrder.delete(startFieldIndex));
+
+        // 添加到新的位置
         const {
             fieldOrder: endFieldOrder,
-            fieldId: endFieldId,
             fieldIndex: endFieldIndex,
             groupId: endGroupId,
         } = this.getFieldInfoByPosition(end);
 
-        // 从原来位置删除
-        startFieldOrder.splice(startFieldIndex, 1);
-        this.uiSchema = this.uiSchema.set(startGroupId, {
-            ...this.uiSchema.get(startGroupId),
-            'ui:order': startFieldOrder,
-        });
-        // 添加到新的位置
-        endFieldOrder.splice(endFieldIndex, 0, startFieldId);
-        this.uiSchema = this.uiSchema.set(endGroupId, {
-            ...this.uiSchema.get(endGroupId),
-            'ui:order': endFieldOrder,
-        });
+        this.uiSchema = this.uiSchema.setIn([endGroupId, 'ui:order'], endFieldOrder.insert(endFieldIndex, fieldId));
     }
 }
