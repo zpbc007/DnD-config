@@ -6,7 +6,7 @@ import NumberInput from 'comp/form/number';
 import { JSONSchema7TypeName } from 'json-schema';
 import GroupComp, { changeSchema as changeGroupSchema, createModel as createGroupModel } from './edit_config_form/group_config_form';
 import InputComp, { changeSchema as changeInputSchema, createModel as createInputModel } from './edit_config_form/input_config_form';
-import UnSupportComp from './edit_config_form/unsupport_config_form';
+import UnSupportComp, { createModel as createUnsupportModel } from './edit_config_form/unsupport_config_form';
 
 // 组件类型enum
 export enum WidgetTypeEnum {
@@ -33,6 +33,7 @@ export const CompConfigMap = {
     },
     unsupport: {
         comp: UnSupportComp,
+        createModel: createUnsupportModel,
     },
 };
 

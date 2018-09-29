@@ -8,6 +8,7 @@ import { EditFormCommonProps } from './type';
 interface ModelInterface {
     disabled: boolean;
     title: string;
+    key: string;
 }
 
 export function createModel(id: string, uiSchema: Map<string, any>, schema: JSONSchema7) {
@@ -16,6 +17,7 @@ export function createModel(id: string, uiSchema: Map<string, any>, schema: JSON
     return {
         disabled: fieldConfig.get('disabled'),
         title: fieldConfig.get('title') || schema.properties[id].title,
+        key: id,
     };
 }
 
@@ -36,6 +38,12 @@ export default class InputConfigForm extends React.Component<EditFormCommonProps
                 formValue={this.props.model}
                 onChange={this.props.changeModel}
             >
+                <FormItem
+                    name='key'
+                    label='key'
+                    disabled={true}
+                    accepter={Input}
+                />
                 <FormItem
                     name='title'
                     label='label名称'

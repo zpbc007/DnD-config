@@ -5,6 +5,7 @@ interface PropsInterface {
     label: string;
     name: string;
     accepter: React.ComponentClass | any;
+    [key: string]: any;
 }
 
 export default class FormItem extends React.Component<PropsInterface> {

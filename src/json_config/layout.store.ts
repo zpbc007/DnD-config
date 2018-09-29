@@ -39,16 +39,17 @@ export class LayoutStore {
     /** 当前配置form数据 */
     @computed
     get tempModel() {
+        let createModel = null;
         if (this.configFormType && CompConfigMap[this.configFormType]) {
-            const { createModel } = CompConfigMap[this.configFormType];
-
-            return createModel(this.configCompId, this.uiSchema, this.schema);
+            createModel = CompConfigMap[this.configFormType].createModel;
         } else {
             if (this.configFormType) {
                 console.log('暂不支持配置类型', this.configFormType, CompConfigMap[this.configFormType]);
             }
-            return {};
+            createModel = CompConfigMap.unsupport.createModel;
         }
+
+        return createModel(this.configCompId, this.uiSchema, this.schema);
     }
 
     /** 组删除按钮状态 */

@@ -1,12 +1,32 @@
 import * as React from 'react';
+import { Form, Input } from 'rsuite';
+import FormItem from './form_item';
 import { EditFormCommonProps } from './type';
 
-export default class UnSupportConfigForm extends React.Component<EditFormCommonProps> {
+interface ModelInterface {
+    key: string;
+}
+
+export function createModel(id: string, uiSchema: Map<string, any>) {
+    return {
+        key: id || '',
+    };
+}
+
+export default class UnSupportConfigForm extends React.Component<EditFormCommonProps<ModelInterface>> {
     render() {
         return (
-            <div>
-                该组件暂不支持编辑
-            </div>
+            <Form
+                formValue={this.props.model}
+                onChange={this.props.changeModel}
+            >
+                <FormItem
+                    name='key'
+                    label='key'
+                    disabled={true}
+                    accepter={Input}
+                />
+            </Form>
         );
     }
 }
