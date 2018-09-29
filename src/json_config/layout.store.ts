@@ -31,8 +31,10 @@ export class LayoutStore {
     get tempForm(): React.ComponentClass<EditFormCommonProps> {
         if (this.configFormType && CompConfigMap[this.configFormType]) {
             return CompConfigMap[this.configFormType].comp;
-        } else {
+        } else if (this.configFormType) {
             return CompConfigMap.unsupport.comp;
+        } else {
+            return null;
         }
     }
 
@@ -135,8 +137,13 @@ export class LayoutStore {
         if (!type) {
             return;
         }
-        this.configFormType = type;
-        this.configCompId = id;
+        if (type === this.configFormType && id === this.configCompId) {
+            this.configFormType = null;
+            this.configCompId = null;
+        } else {
+            this.configFormType = type;
+            this.configCompId = id;
+        }
     }
 
     /** 对model更改 */

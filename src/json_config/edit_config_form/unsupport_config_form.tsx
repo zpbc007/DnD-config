@@ -9,7 +9,7 @@ interface ModelInterface {
 
 export function createModel(id: string, uiSchema: Map<string, any>) {
     return {
-        key: id || '',
+        key: id,
     };
 }
 
