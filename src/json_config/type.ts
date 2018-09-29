@@ -1,4 +1,8 @@
+import Date from 'comp/form/date';
+import FileUpload from 'comp/form/file_upload';
 import Input from 'comp/form/input';
+import LayerInput from 'comp/form/layer_input';
+import NumberInput from 'comp/form/number';
 import { JSONSchema7TypeName } from 'json-schema';
 import GroupComp, { changeSchema as changeGroupSchema, createModel as createGroupModel } from './edit_config_form/group_config_form';
 import InputComp, { changeSchema as changeInputSchema, createModel as createInputModel } from './edit_config_form/input_config_form';
@@ -35,11 +39,11 @@ export const CompConfigMap = {
 // 组件类型map
 export const WidgetMap = {
     [WidgetTypeEnum.input]: Input,
-    [WidgetTypeEnum.layerInput]: Input,
-    [WidgetTypeEnum.date]: Input,
+    [WidgetTypeEnum.layerInput]: LayerInput,
+    [WidgetTypeEnum.date]: Date,
     [WidgetTypeEnum.notSupport]: Input,
-    [WidgetTypeEnum.number]: Input,
-    [WidgetTypeEnum.fileUpload]: Input,
+    [WidgetTypeEnum.number]: NumberInput,
+    [WidgetTypeEnum.fileUpload]: FileUpload,
 };
 
 export function createDefaultTypeWidgetKey(type: JSONSchema7TypeName, format?: string) {
