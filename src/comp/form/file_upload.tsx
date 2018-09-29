@@ -8,7 +8,7 @@ export default class FileUpload extends React.PureComponent<FieldCommonProps> {
 
         return (
             <div {...props}>
-                <Button>上传</Button>
+                <Button style={{width: '100%'}}>上传</Button>
             </div>
         );
     }

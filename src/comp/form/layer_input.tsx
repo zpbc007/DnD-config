@@ -9,7 +9,7 @@ export default class LayerInput extends React.PureComponent<FieldCommonProps> {
             <div {...props}>
                 <InputGroup>
                     <Input disabled={true}/>
-                    <InputGroup.Button appearance='primary'>
+                    <InputGroup.Button>
                         请选择
                     </InputGroup.Button>
                 </InputGroup>
