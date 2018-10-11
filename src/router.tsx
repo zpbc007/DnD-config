@@ -1,6 +1,4 @@
-import NotFoundPage from 'error_page/page_404';
-import Example from 'example';
-import { JsonConfig } from 'json_config';
+import { RoutesConfig } from 'common/route';
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
 import {
@@ -23,36 +21,11 @@ const RouteWithSubRoutes = route => {
     );
 };
 
-interface RouteItem {
-    path?: string;
-    component?: any;
-    infinity?: boolean;
-    routes?: RouteItem[];
-    title?: string;
-    private?: boolean;
-    redirect?: string;
-    exact?: boolean;
-}
-
-// 路由配置
-const routesConfig: RouteItem[] = [
-    {
-        path: '/example',
-        component: Example,
-    }, {
-        path: '/jsonConfig',
-        component: JsonConfig,
-    }, {
-        component: NotFoundPage,
-        private: true,
-    },
-];
-
 const PageRoute = () => (
     <IntlProvider locale={zhCN}>
         <Router>
             <Switch>
-                {routesConfig.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)}
+                {RoutesConfig.map((route, i) => <RouteWithSubRoutes key={i} {...route} />)}
             </Switch>
         </Router>
     </IntlProvider>

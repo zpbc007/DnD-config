@@ -1,0 +1,23 @@
+.card-container {
+    border: 1px solid #e8e8e8;
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    border-radius: 6px;
+    &:hover {
+        box-shadow: 0 1px 6px rgba(0,0,0,.2);
+        border-color: #eeeeee;
+    }
+
+    .card-body {
+        padding: 24px;
+    }
+    .card-actions {
+        .rs-btn {
+            border-top-right-radius: 0 !important;
+            border-top-left-radius: 0 !important;
+        }
+    }
+}

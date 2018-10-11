@@ -1,0 +1,22 @@
+.menu-wrapper {
+    .menu-card-body {
+        display: flex;
+        flex-direction: row;
+
+        .card-icon {
+            flex: 0 0 auto;
+            margin-right: 10px;
+        }
+        .card-text{
+            flex: 1 1 auto;
+            .text-title {
+                font-size: 16px;
+                color: rgba(0,0,0,.85);
+            }
+            .text-desc {
+                font-size: 14px;
+                color: rgba(0,0,0,.45);
+            }
+        }
+    }
+}
