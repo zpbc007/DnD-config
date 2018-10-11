@@ -1,4 +1,4 @@
-import { RoutesConfig } from 'common/route';
+import { RouteItem, RoutesConfig } from 'common/route';
 import * as React from 'react';
 import { hot } from 'react-hot-loader';
 import {
@@ -10,7 +10,7 @@ import { IntlProvider } from 'rsuite';
 import zhCN from 'rsuite/lib/IntlProvider/locales/zh_CN';
 
 // 带有子路由
-const RouteWithSubRoutes = route => {
+const RouteWithSubRoutes = (route: RouteItem) => {
     const renderFunc = props => (<route.component {...props} routes={route.routes} />);
     return (
         <Route
@@ -32,3 +32,7 @@ const PageRoute = () => (
 );
 
 export default hot(module)(PageRoute);
+
+export {
+    RouteWithSubRoutes,
+};

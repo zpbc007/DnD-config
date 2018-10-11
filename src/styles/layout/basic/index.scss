@@ -1,0 +1,19 @@
+.basic-layout {
+    min-height: 100vh;
+
+    .layout-container {
+        min-height: 100vh;
+
+        .side-nav {
+            flex: 1 1 auto;
+        }
+
+        .content-wrapper {
+            padding: 20px;
+
+            .panel-wrapper {
+                background: white;
+            }
+        }
+    }
+}
