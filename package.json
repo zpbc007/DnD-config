@@ -71,7 +71,7 @@
     "ignore-loader": "^0.1.2",
     "less": "^3.6.0",
     "less-loader": "^4.1.0",
-    "node-sass": "^4.9.2",
+    "node-sass": "^4.11.0",
     "postcss-loader": "^2.1.6",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
