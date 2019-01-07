@@ -6,6 +6,21 @@ interface MenuItemInterface {
 }
 
 const MenuConfig: MenuItemInterface[] = [{
+    icon: 'user',
+    path: '/user',
+    name: '用户管理',
+    desc: '配置用户信息',
+}, {
+    icon: '',
+    path: '',
+    name: '角色管理',
+    desc: '配置角色信息',
+}, {
+    icon: '',
+    path: '',
+    name: '路由管理',
+    desc: '配置路由信息',
+}, {
     icon: 'th',
     path: '/jsonConfig',
     name: '布局配置',

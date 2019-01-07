@@ -828,6 +828,15 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/styled-components@^4.1.4":
+  version "4.1.4"
+  resolved "http://registry.npm.taobao.org/@types/styled-components/download/@types/styled-components-4.1.4.tgz#c6915ccee4413da2e1e81b4df9d7ea5b97eb56aa"
+  integrity sha1-xpFczuRBPaLh6BtN+dfqW5frVqo=
+  dependencies:
+    "@types/node" "*"
+    "@types/react" "*"
+    csstype "^2.2.0"
+
 "@types/tapable@*":
   version "1.0.4"
   resolved "http://registry.npm.taobao.org/@types/tapable/download/@types/tapable-1.0.4.tgz#b4ffc7dc97b498c969b360a41eee247f82616370"
