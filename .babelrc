@@ -1,15 +1,9 @@
 {
-    "env": {
-        "client": {
-            "plugins": ["react-hot-loader/babel"]
-        },
-        "server": {
-            "plugins": [
-                "transform-es2015-spread",
-                "transform-runtime",
-                "transform-object-rest-spread"
-            ],
-            "presets": ["env"]
-        }
-    }
+    "presets": ["@babel/react", "@babel/typescript", "@babel/preset-env"],
+    "plugins": [
+        ["@babel/plugin-proposal-decorators", { "legacy": true }],
+        ["@babel/plugin-proposal-class-properties", { "loose" : true }],
+        "babel-plugin-styled-components",
+        "@babel/plugin-transform-runtime",
+    ]
 }

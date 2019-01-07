@@ -1,23 +1,15 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin'); 
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
     entry: {
-        vendor: [
-            'react',
-            'react-dom',
-            'react-router-dom',
-            'rsuite'
-        ],
         app: './src/index.tsx'
     },
     module: {
         rules: [{
             test: /\.tsx?$/,
-            use: 'awesome-typescript-loader',
-            exclude: /node_modules/
+            use: 'babel-loader',
         }, {
             test: /\.scss$/,
             use: [{
@@ -43,11 +35,7 @@ module.exports = {
             }]
         }, {
             test: /\.css$/,
-            use: [{
-                loader: "style-loader"
-            }, {
-                loader: "css-loader"
-            }]
+            use: ["style-loader", "css-loader", "postcss-loader"]
         }, {
             test: /\.md$/,
             use: 'ignore-loader'
@@ -69,9 +57,6 @@ module.exports = {
           }]
     },
     plugins: [
-        new CleanWebpackPlugin([path.resolve(__dirname, '../dist')], {
-            verbose:  true,
-        }),
         new HtmlWebpackPlugin({
             filename: "index.html",
             template: 'index.html',

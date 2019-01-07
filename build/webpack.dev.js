@@ -16,7 +16,9 @@ module.exports = merge(common, {
                 target: 'http://localhost:8080',
                 pathRewrite: {"^/api" : ""},
             }
-        }
+        },
+        historyApiFallback: true, // 404页面返回index.html
+        contentBase: '../',
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin({})
