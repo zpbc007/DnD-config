@@ -12,8 +12,8 @@ module.exports = merge(common, {
         host: '0.0.0.0',
         proxy: {
             "/api": {
-                // target: "http://192.168.1.161:8080",
-                target: 'http://localhost:8080',
+                // target: 'http://localhost:8080',
+                target: 'http://api.zpblog.xyz/mock/32',
                 pathRewrite: {"^/api" : ""},
             }
         },

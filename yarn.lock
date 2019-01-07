@@ -828,6 +828,13 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/recompose@^0.30.2":
+  version "0.30.2"
+  resolved "http://registry.npm.taobao.org/@types/recompose/download/@types/recompose-0.30.2.tgz#3bdb7fd37460242ef82f6d6a7428e3c96d3a1b9a"
+  integrity sha1-O9t/03RgJC74L21qdCjjyW06G5o=
+  dependencies:
+    "@types/react" "*"
+
 "@types/styled-components@^4.1.4":
   version "4.1.4"
   resolved "http://registry.npm.taobao.org/@types/styled-components/download/@types/styled-components-4.1.4.tgz#c6915ccee4413da2e1e81b4df9d7ea5b97eb56aa"

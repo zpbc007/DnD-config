@@ -1,4 +1,4 @@
-import { Container, Icon, Navbar } from 'rsuite';
+import { Container, Content, Icon, Navbar } from 'rsuite';
 import styled from 'styled-components';
 
 const StyledContainer = styled(Container)`
@@ -13,8 +13,13 @@ const StyledHeader = styled(Navbar.Header)`
     padding: 18px 20px;
 `;
 
+const StyledContent = styled(Content)`
+    padding: 10px 20px;
+`;
+
 export {
     StyledContainer,
     StyledHeader,
     StyledBanner,
+    StyledContent,
 };

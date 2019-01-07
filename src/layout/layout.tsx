@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Link, Switch } from 'react-router-dom';
 import { RouteItem, RouteWithSubRoutes } from 'router';
 import { Content, Header, Icon, Nav, Navbar } from 'rsuite';
-import { StyledBanner, StyledContainer, StyledHeader } from './styled';
+import { StyledBanner, StyledContainer, StyledContent, StyledHeader } from './styled';
 
 interface PropsInterface {
     routes: RouteItem[];
@@ -55,11 +55,11 @@ export class Layout extends React.Component<PropsInterface> {
         const { routes } = this.props;
 
         return (
-            <Content>
+            <StyledContent>
                 <Switch>
                     {routes && routes.map(route => RouteWithSubRoutes(route))}
                 </Switch>
-            </Content>
+            </StyledContent>
         );
     }
 }
