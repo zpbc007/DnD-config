@@ -4,8 +4,8 @@ import { TableCellProps } from 'rsuite/types/TableCell';
 import Styled from 'styled-components';
 const { Cell } = Table;
 
-interface BtnProps {
-    onClick: (e) => void;
+interface PropsInterface extends TableCellProps {
+    render: (rowData: object, rowIndex: number) => React.ReactNode;
 }
 
 const StyledCell = Styled(Cell)`
@@ -16,27 +16,13 @@ const StyledCell = Styled(Cell)`
     }
 `;
 
-export class ActionCell extends React.PureComponent<TableCellProps> {
-    clickFunc: any;
-    handleClick = (e) => {
-        const { rowData, rowIndex } = this.props;
-
-        this.clickFunc && this.clickFunc(e, rowData, rowIndex);
-    }
-
+export class ActionCell extends React.PureComponent<PropsInterface> {
     render() {
-        const { children, ...props } = this.props;
+        const { render, rowData, rowIndex, ...props } = this.props;
 
         return (
             <StyledCell {...props} >
-                {React.Children.map(children, (child: React.ReactElement<BtnProps>) => {
-                    this.clickFunc = child.props.onClick;
-
-                    return React.cloneElement(child, {
-                        ...child.props,
-                        onClick: this.handleClick,
-                    });
-                })}
+                {render(rowData, rowIndex)}
             </StyledCell>
         );
     }

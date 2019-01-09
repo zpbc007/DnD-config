@@ -3,15 +3,18 @@ import Example from 'example';
 import { JsonConfig } from 'json_config';
 import { Layout } from 'layout';
 import { RouteItem } from 'router';
-import UserList from 'views/user/user_list';
+import { BoEdit, BoList } from 'views/bo';
 
 // 路由配置
 const RoutesConfig: RouteItem[] = [{
     path: '/',
     component: Layout,
     routes: [{
-        path: './user',
-        component: UserList,
+        path: './layoutConfig/bo',
+        component: BoList,
+    }, {
+        path: './layoutConfig/bo/:metaId',
+        component: BoEdit,
     }, {
         path: './example',
         component: Example,

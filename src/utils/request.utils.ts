@@ -36,7 +36,35 @@ function addQuery(url: string, queryVariables, override = false) {
     }).join('&')}`;
 }
 
+/**
+ * 标记当前方法为请求方法
+ * @param countAttr 计数器属性
+ */
+const RequestMethod = function(countAttr: string = '_requestNum') {
+    return function(target, name, descriptor) {
+        const oldValue = descriptor.value;
+        descriptor.value = async function(...args) {
+            const hasNum = this && (typeof this[countAttr] === 'number');
+            if (hasNum) {
+                this[countAttr]++;
+            } else {
+                console.warn(`decorator RequestMethod need cournt attr ${countAttr}`);
+            }
+
+            const result = await oldValue.apply(this, args);
+
+            if (hasNum) {
+                this[countAttr]--;
+            }
+
+            return result;
+        };
+        return descriptor;
+    };
+};
+
 export {
     ServerReturn,
     addQuery,
+    RequestMethod,
 };
