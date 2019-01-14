@@ -37,6 +37,19 @@ function addQuery(url: string, queryVariables, override = false) {
 }
 
 /**
+ * 替换路径参数
+ * @param url 需要进行路径参数替换的url
+ * @param pathVariables 路径参数对象
+ */
+function replace(url: string, pathVariables: object) {
+    const regex = /\{([^{^}]*)\}/g;
+    return url.replace(regex, (match, $1) => {
+        const variable = pathVariables[$1];
+        return variable as string;
+    });
+}
+
+/**
  * 标记当前方法为请求方法
  * @param countAttr 计数器属性
  */
@@ -66,5 +79,6 @@ const RequestMethod = function(countAttr: string = '_requestNum') {
 export {
     ServerReturn,
     addQuery,
+    replace,
     RequestMethod,
 };

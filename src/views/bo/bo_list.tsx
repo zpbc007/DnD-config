@@ -1,6 +1,6 @@
-import { ColorIcon } from 'comp/color_icon';
-import { ActionCell } from 'comp/table_cell/action_cell';
-import { IndexCell } from 'comp/table_cell/index_cell';
+import { ColorIcon } from 'component/color_icon';
+import { ActionCell } from 'component/table_cell/action_cell';
+import { IndexCell } from 'component/table_cell/index_cell';
 import { withStore } from 'hoc/withStore';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -19,13 +19,13 @@ export class BoList extends React.Component<InnerProps> {
     handleFormEdit = (rowData) => (e) => {
         const { history } = this.props;
 
-        history.push(`layoutConfig/bo/form/${rowData.id}`);
+        history.push(`/layoutConfig/bo/form/${rowData.token_template_id}`);
     }
 
     handleTableEdit = (rowData) => (e) => {
         const { history } = this.props;
 
-        history.push(`layoutConfig/bo/table/${rowData.id}`);
+        history.push(`/layoutConfig/bo/table/${rowData.token_template_id}`);
     }
 
     // 点击删除按钮

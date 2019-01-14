@@ -3,7 +3,7 @@ import Example from 'example';
 import { JsonConfig } from 'json_config';
 import { Layout } from 'layout';
 import { RouteItem } from 'router';
-import { BoEdit, BoList } from 'views/bo';
+import { BoFormEdit, BoList } from 'views/bo';
 
 // 路由配置
 const RoutesConfig: RouteItem[] = [{
@@ -11,11 +11,15 @@ const RoutesConfig: RouteItem[] = [{
     component: Layout,
     routes: [{
         path: './layoutConfig/bo',
+        exact: true,
         component: BoList,
     }, {
-        path: './layoutConfig/bo/:metaId',
-        component: BoEdit,
+        path: './layoutConfig/bo/form/:ttid',
+        component: BoFormEdit,
     }, {
+        path: './layoutConfig/bo/table/:ttid',
+        component: BoFormEdit,
+    },  {
         path: './example',
         component: Example,
     }, {

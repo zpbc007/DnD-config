@@ -20,7 +20,7 @@ interface ListReturn<T = any> {
 
 // 获取用户列表
 export async function getBoList(pageSize: number, pageNo: number) {
-    return await axios.get<ServerReturn<ListReturn<BoItem>>>(addQuery('/api/config/bo', {
+    return axios.get<ServerReturn<ListReturn<BoItem>>>(addQuery('/api/config/bo', {
         pageSize,
         pageNo,
     }));
@@ -28,5 +28,5 @@ export async function getBoList(pageSize: number, pageNo: number) {
 
 // 删除bo配置
 export async function delBoConfig(id: number) {
-    return await axios.delete(`/api/config/bo/${id}`);
+    return axios.delete(`/api/config/bo/${id}`);
 }
